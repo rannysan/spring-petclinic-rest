@@ -82,7 +82,7 @@ public class JdbcOwnerRepositoryImpl implements OwnerRepository {
         Map<String, Object> params = new HashMap<>();
         params.put("lastName", lastName + "%");
         List<Owner> owners = this.namedParameterJdbcTemplate.query(
-            "SELECT id, first_name, last_name, address, city, telephone FROM owners WHERE last_name like :lastName",
+            "SELECT id, first_name, last_name, address, city, telephone, active FROM owners WHERE last_name like :lastName",
             params,
             BeanPropertyRowMapper.newInstance(Owner.class)
         );
@@ -101,7 +101,7 @@ public class JdbcOwnerRepositoryImpl implements OwnerRepository {
             Map<String, Object> params = new HashMap<>();
             params.put("id", id);
             owner = this.namedParameterJdbcTemplate.queryForObject(
-                "SELECT id, first_name, last_name, address, city, telephone FROM owners WHERE id= :id",
+                "SELECT id, first_name, last_name, address, city, telephone, active FROM owners WHERE id= :id",
                 params,
                 BeanPropertyRowMapper.newInstance(Owner.class)
             );
@@ -162,7 +162,7 @@ public class JdbcOwnerRepositoryImpl implements OwnerRepository {
 	@Override
 	public Collection<Owner> findAll() throws DataAccessException {
 		List<Owner> owners = this.namedParameterJdbcTemplate.query(
-	            "SELECT id, first_name, last_name, address, city, telephone FROM owners",
+	            "SELECT id, first_name, last_name, address, city, telephone, active FROM owners",
 	            new HashMap<String, Object>(),
 	            BeanPropertyRowMapper.newInstance(Owner.class));
 		for (Owner owner : owners) {
